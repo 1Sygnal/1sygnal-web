@@ -1,0 +1,41 @@
+{
+  "name": "onesygnal-web-sdk",
+  "version": "1.0.0",
+  "description": "1Sygnal Web SDK — thin loader + CDN-hosted survey engine",
+  "type": "module",
+  "main": "index.cjs",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs",
+      "types": "./index.d.ts"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.cjs",
+    "index.d.ts"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1Sygnal/1sygnal-web.git"
+  },
+  "homepage": "https://github.com/1Sygnal/1sygnal-web#readme",
+  "bugs": {
+    "url": "https://github.com/1Sygnal/1sygnal-web/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "surveys",
+    "feedback",
+    "analytics",
+    "1sygnal"
+  ]
+}

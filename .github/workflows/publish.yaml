@@ -1,0 +1,80 @@
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 0.1.0) — must match a v* tag already pushed by the bratislava sync workflow'
+        required: true
+
+jobs:
+  publish:
+    name: Verify, Scan, and Publish
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - name: Validate version format
+        env:
+          VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          if ! [[ "$VERSION_INPUT" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Version must be plain semver (e.g. 0.1.0), got: $VERSION_INPUT"
+            exit 1
+          fi
+
+      - name: Checkout release tag
+        uses: actions/checkout@v7
+        with:
+          ref: v${{ inputs.version }}
+
+      - name: Verify package.json version matches input
+        env:
+          VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          if [ "$PKG_VERSION" != "$VERSION_INPUT" ]; then
+            echo "::error::package.json version ($PKG_VERSION) does not match input ($VERSION_INPUT)"
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Check this version isn't already published
+        env:
+          VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          if npm view "onesygnal-web-sdk@$VERSION_INPUT" version >/dev/null 2>&1; then
+            echo "::error::onesygnal-web-sdk@$VERSION_INPUT is already published — refusing to re-publish."
+            exit 1
+          fi
+
+      - name: Safety scan package contents
+        run: |
+          npm pack --dry-run 2>&1 | tee /tmp/pack-manifest.txt
+          if grep -Ei '\.env($|\.)|credentials|\.pem$|private.?key' /tmp/pack-manifest.txt; then
+            echo "::error::Package manifest contains a suspicious file — aborting publish."
+            exit 1
+          fi
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
+
+      - name: Ensure GitHub Release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          if gh release view "v$VERSION_INPUT" >/dev/null 2>&1; then
+            echo "Release v$VERSION_INPUT already exists — skipping."
+            exit 0
+          fi
+          gh release create "v$VERSION_INPUT" \
+            --title "v$VERSION_INPUT" \
+            --notes "Published to npm as onesygnal-web-sdk@$VERSION_INPUT."
