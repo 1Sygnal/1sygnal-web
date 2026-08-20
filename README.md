@@ -24,7 +24,7 @@ export.
 
 ```html
 <script
-  src="https://sdk.1sygnal.app/js/onesygnal.js"
+  src="https://repo.1sygnal.app/js/1sygnal.js"
   data-api-key="your-api-key"
   data-api-url="https://sdk-api.1sygnal.app"
 ></script>

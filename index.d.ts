@@ -29,7 +29,7 @@ export interface OneSygnalInitOptions {
     /** Starts surveys disabled (as if `setSurveysEnabled(false)` had been called) until you
      *  explicitly opt in — for consent-gated integrations. @default false */
     consentRequired?: boolean;
-    /** URL of the shared `onesygnal.css` bundle, loaded inside the survey's shadow root so
+    /** URL of the shared `1sygnal.css` bundle, loaded inside the survey's shadow root so
      *  `:host`-scoped styles apply. Auto-derived from the bundle script's own `src` when omitted. */
     cssUrl?: string;
     /** `Accept-Language` tag (e.g. `"fr"`, `"fr-FR"`), fixed for the lifetime of this `init()`
