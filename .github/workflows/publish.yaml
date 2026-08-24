@@ -48,8 +48,8 @@ jobs:
         env:
           VERSION_INPUT: ${{ inputs.version }}
         run: |
-          if npm view "onesygnal-web-sdk@$VERSION_INPUT" version >/dev/null 2>&1; then
-            echo "::error::onesygnal-web-sdk@$VERSION_INPUT is already published — refusing to re-publish."
+          if npm view "@1sygnal/onesygnal-web-sdk@$VERSION_INPUT" version >/dev/null 2>&1; then
+            echo "::error::@1sygnal/onesygnal-web-sdk@$VERSION_INPUT is already published — refusing to re-publish."
             exit 1
           fi
 
@@ -77,4 +77,4 @@ jobs:
           fi
           gh release create "v$VERSION_INPUT" \
             --title "v$VERSION_INPUT" \
-            --notes "Published to npm as onesygnal-web-sdk@$VERSION_INPUT."
+            --notes "Published to npm as @1sygnal/onesygnal-web-sdk@$VERSION_INPUT."
