@@ -8,11 +8,11 @@ user identification.
 ### npm
 
 ```bash
-npm install onesygnal-web-sdk
+npm install @1sygnal/onesygnal-web-sdk
 ```
 
 ```typescript
-import oneSygnal from 'onesygnal-web-sdk';
+import oneSygnal from '@1sygnal/onesygnal-web-sdk';
 
 oneSygnal.init('your-api-key', { apiUrl: 'https://sdk-api.1sygnal.app' });
 ```
