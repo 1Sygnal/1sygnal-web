@@ -55,7 +55,10 @@ export interface OneSygnalInitOptions {
 }
 /**
  * Payload shapes for each event the bundle actually emits (`this.emit(...)` calls in
- * `src/bundle/core/sdk.ts` — grep-confirmed: exactly these four, no others exist).
+ * `src/bundle/core/sdk.ts`, using the values in `src/bundle/core/event-names.ts`'s
+ * `SurveyEmitEventName`). Kept in sync with that runtime value set by the parity test in
+ * `tests/event-name-parity.test.ts` — this file can't import `event-names.ts` directly (see
+ * `OneSygnalInitOptions`'s comment above for why the loader and bundle can't share a module).
  */
 export interface SurveyEventPayloadMap {
     /** Fires once a survey overlay is confirmed attached/rendered. */
