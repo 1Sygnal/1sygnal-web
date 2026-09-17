@@ -1,6 +1,6 @@
 {
   "name": "@1sygnal/onesygnal-web-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "1Sygnal Web SDK — thin loader + CDN-hosted survey engine",
   "type": "module",
   "main": "index.cjs",
