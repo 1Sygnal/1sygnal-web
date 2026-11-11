@@ -1,5 +1,7 @@
 # 1Sygnal Web SDK
 
+[Website](https://1sygnal.app) · [Documentation](https://docs.1sygnal.app/platforms/web)
+
 Thin loader + CDN-hosted survey engine for 1Sygnal in-product surveys, event tracking, and
 user identification.
 
